@@ -1,6 +1,19 @@
 framework:
     messenger:
+        reset_on_message: true
         failure_transport: failed
+        default_bus: command.bus
+        buses:
+            command.bus:
+                middleware:
+                    - validation
+            query.bus:
+                middleware:
+                    - validation
+            event.bus:
+                default_middleware: allow_no_handlers
+                middleware:
+                    - validation
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
@@ -13,12 +26,17 @@ framework:
                     max_retries: 3
                     multiplier: 2
             failed: 'doctrine://default?queue_name=failed'
-            # sync: 'sync://'
+            sync: 'sync://'
 
         routing:
+            App\Application\Event\PostCreated: sync
             Symfony\Component\Mailer\Messenger\SendEmailMessage: async
             Symfony\Component\Notifier\Message\ChatMessage: async
             Symfony\Component\Notifier\Message\SmsMessage: async
 
-            # Route your messages to the transports
-            # 'App\Message\YourMessage': async
+when@test:
+    framework:
+        messenger:
+            transports:
+                async: 'sync://'
+                failed: 'sync://'

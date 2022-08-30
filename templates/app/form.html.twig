@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <div>post : {{ postView }}</div>
+    {{ form_start(form) }}
+    {{ form_widget(form.id) }}
+    <button type="submit">launch</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}
