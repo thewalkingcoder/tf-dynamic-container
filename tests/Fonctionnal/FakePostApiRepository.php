@@ -19,7 +19,8 @@ class FakePostApiRepository implements PostRepositoryInterface
 
     public function find(int $id): Post
     {
-
+        dump('fake api call');
+        dump($this->fakeDataResponse);
         return new Post(
             $this->fakeDataResponse[0]['id'],
             $this->fakeDataResponse[0]['name']

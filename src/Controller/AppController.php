@@ -32,7 +32,7 @@ class AppController extends AbstractController
     {
 
         $form = $this->createForm(PostType::class);
-
+        $post = $postService->doTheStuff(1);
         $postView = '';
         if($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             $post = $postService->doTheStuff($form->getData()['id']);
