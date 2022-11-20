@@ -31,11 +31,11 @@ class PostApiTest extends WebTestCase
     public function testBehaviourWithForm()
     {
         $client = static::createClient();
-
+        $client->disableReboot();
         $client->getContainer()->set(
             FakePostApiRepository::class,
             new FakePostApiRepository(
-                [['id' => 2, 'name' => 'Fake post with form']]
+                [['id' => 2, 'name' => 'Fake data']]
             )
         );
 
@@ -46,12 +46,10 @@ class PostApiTest extends WebTestCase
         $form['post[id]']->setValue('2');
         $client->submit($form);
 
-        file_put_contents(__DIR__.'/../../var/debug.html', $client->getResponse()->getContent());
-        $this->assertStringContainsString(
-            'Fake post with form',
+       $this->assertStringContainsString(
+            'Fake data',
             $client->getResponse()->getContent()
         );
-
 
     }
 
